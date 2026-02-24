@@ -1,20 +1,21 @@
 class PostsController < ApplicationController
+  # 特定の投稿を取得する処理を共通化
+  before_action :set_post, only: [ :show, :edit, :update, :destroy ]
+
   def index
     @posts = Post.all.order(created_at: :desc)
   end
 
   def show
+    # @post は before_action の set_post で取得済み
   end
 
-  # GET /posts/new (新規投稿画面を表示するだけ)
   def new
-    @post = Post.new # 空っぽのモデルを作るだけ
+    @post = Post.new
   end
 
-  # POST /posts (投稿ボタンが押されたときにここが動いて保存する)
   def create
-    @post = Post.new(post_params) # 送られてきたデータをセット
-
+    @post = Post.new(post_params)
     if @post.save
       redirect_to posts_path, notice: "投稿が完了しました"
     else
@@ -23,12 +24,30 @@ class PostsController < ApplicationController
   end
 
   def edit
+    # @post は set_post で取得済み
+  end
+
+  def update
+    if @post.update(post_params)
+      redirect_to post_path(@post), notice: "投稿を更新しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @post.destroy
+    redirect_to posts_path, notice: "投稿を削除しました", status: :see_other
   end
 
   private
 
+  # IDから投稿を探す共通メソッド
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
   def post_params
-    # Rails 8系の新しい書き方。require(:post).permit(...) と同じ意味です。
     params.expect(post: [ :title, :content ])
   end
 end
