@@ -1,0 +1,18 @@
+<h1>掲示板</h1>
+
+<%# 投稿成功時のメッセージ表示 %>
+<% if flash[:notice] %>
+  <p style="color: green;"><%= flash[:notice] %></p>
+<% end %>
+
+<%= link_to "新規投稿", new_post_path %>
+
+<hr>
+
+<% @posts.each do |post| %>
+  <div style="border-bottom: 1px solid #ccc; margin-bottom: 10px; padding-bottom: 10px;">
+    <h2><%= post.title %></h2>
+    <p><%= post.content %></p>
+    <small>投稿日時: <%= post.created_at.strftime("%Y/%m/%d %H:%M") %></small>
+  </div>
+<% end %>
