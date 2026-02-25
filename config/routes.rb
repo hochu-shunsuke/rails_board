@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  # 掲示板の基本機能（一覧、詳細、保存、更新、削除など）をまとめて設定
-  resources :posts
+  resources :posts do
+    resources :comments, only: [ :create, :destroy ]
+  end
 
   # トップページ（http://localhost:3000/）にアクセスしたときに、投稿一覧を表示する
   root "posts#index"
