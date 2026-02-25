@@ -3,6 +3,9 @@
 <% if flash[:notice] %>
   <p style="color: green;"><%= flash[:notice] %></p>
 <% end %>
+<% if flash[:alert] %>
+  <p style="color: red;"><%= flash[:alert] %></p>
+<% end %>
 
 <%= link_to "新規投稿", new_post_path %>
 
@@ -14,8 +17,10 @@
     <p><%= post.content %></p>
     
     <div>
-      <%= link_to "詳細", post_path(post) %> |
-      <%= button_to "削除", post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+      <%= link_to "詳細", post_path(post) %>
+      <% if authenticated? && post.user == Current.user %>
+        | <%= button_to "削除", post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" }, style: "display: inline;" %>
+      <% end %>
     </div>
   </div>
 <% end %>

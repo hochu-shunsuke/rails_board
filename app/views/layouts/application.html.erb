@@ -24,6 +24,24 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header style="padding: 10px; background: #f4f4f4; margin-bottom: 20px;">
+      <%= link_to "Rails Board", root_path, style: "font-weight: bold; text-decoration: none;" %>
+      <div style="float: right;">
+        <% if authenticated? %>
+          <span><%= Current.user.email_address %></span> |
+          <%= link_to "新規投稿", new_post_path %> |
+          <%= button_to "ログアウト", session_path, method: :delete, style: "display: inline; cursor: pointer; border: none; background: none; color: blue; text-decoration: underline; padding: 0;" %>
+        <% else %>
+          <%= link_to "会員登録", sign_up_path %> |
+          <%= link_to "ログイン", new_session_path %>
+        <% end %>
+      </div>
+      <div style="clear: both;"></div>
+    </header>
+
+    <main style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
+      <%= yield %>
+    </main>
   </body>
+
 </html>

@@ -1,6 +1,9 @@
 class PostsController < ApplicationController
-  # 特定の投稿を取得する処理を共通化
+  # 一覧と詳細だけはログインなしでOK
+  allow_unauthenticated_access only: [ :index, :show ]
+
   before_action :set_post, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_post, only: [ :edit, :update, :destroy ]
 
   def index
     @posts = Post.all.order(created_at: :desc)
@@ -15,7 +18,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = Current.user.posts.build(post_params)
     if @post.save
       redirect_to posts_path, notice: "投稿が完了しました"
     else
@@ -45,6 +48,12 @@ class PostsController < ApplicationController
   # IDから投稿を探す共通メソッド
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def authorize_post
+    unless @post.user == Current.user
+      redirect_to posts_path, alert: "権限がありません"
+    end
   end
 
   def post_params

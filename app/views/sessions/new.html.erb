@@ -1,0 +1,23 @@
+<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+
+<h1>ログイン</h1>
+
+<%= form_with url: session_path do |form| %>
+  <div>
+    <%= form.label :email_address, "メールアドレス" %><br>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address] %>
+  </div>
+  <div>
+    <%= form.label :password, "パスワード" %><br>
+    <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72 %>
+  </div>
+  <div style="margin-top: 10px;">
+    <%= form.submit "ログインする" %>
+  </div>
+<% end %>
+
+<div style="margin-top: 20px;">
+  <%= link_to "会員登録はこちら", sign_up_path %><br>
+  <%= link_to "パスワードをお忘れの方", new_password_path %>
+</div>
