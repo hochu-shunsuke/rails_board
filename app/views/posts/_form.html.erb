@@ -20,7 +20,26 @@
     <%= f.text_area :content %>
   </div>
 
-  <div>
-    <%= f.submit yield(:button_text) %> <%# ボタンの文字を呼び出し元で変えられるようにする %>
+  <% # プレビュー用のコントローラーを紐づけ %>
+  <div data-controller="preview">
+    <div>
+      <%= f.label :image, "画像" %><br>
+      <% # アクション名を preview#display に変更 %>
+      <%= f.file_field :image, data: { action: "change->preview#display" } %>
+    </div>
+
+    <div>
+      <% # ターゲット名を previewImage に統一 %>
+      <% if post.image.attached? %>
+        <%= image_tag post.image, data: { preview_target: "previewImage" }, style: "max-width: 300px; display: block; margin-top: 10px;" %>
+      <% else %>
+        <img data-preview-target="previewImage" src="" style="max-width: 300px; display: none; margin-top: 10px;">
+      <% end %>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <%= f.submit yield(:button_text) %>
   </div>
 <% end %>
+

@@ -10,6 +10,12 @@
   <%= @post.content %>
 </div>
 
+<% if @post.image.attached? %>
+  <div>
+    <%= image_tag @post.image, style: "max-width: 500px;"%>
+  </div>
+<% end %>
+
 <div>
   <small>投稿日時: <%= @post.created_at.strftime("%Y/%m/%d %H:%M") %></small>
 </div>
