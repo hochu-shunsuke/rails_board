@@ -1,20 +1,7 @@
+<% provide(:button_text, "更新する") %>
 <h1>投稿の編集</h1>
 
-<%= form_with model: @post do |f| %>
-  <div>
-    <%= f.label :title, "タイトル" %><br>
-    <%= f.text_field :title %>
-  </div>
-
-  <div>
-    <%= f.label :content, "内容" %><br>
-    <%= f.text_area :content %>
-  </div>
-
-  <div>
-    <%= f.submit "更新する" %>
-  </div>
-<% end %>
+<%= render "form", post: @post %>
 
 <%= link_to "詳細に戻る", post_path(@post) %> |
 <%= link_to "一覧に戻る", posts_path %>

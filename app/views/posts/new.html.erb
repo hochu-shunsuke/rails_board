@@ -1,19 +1,7 @@
+<% provide(:button_text, "投稿する") %>
 <h1>新規投稿</h1>
 
-<%= form_with model: @post do |f| %>
-  <div>
-    <%= f.label :title, "タイトル" %><br>
-    <%= f.text_field :title %>
-  </div>
-
-  <div>
-    <%= f.label :content, "内容" %><br>
-    <%= f.text_area :content %>
-  </div>
-
-  <div>
-    <%= f.submit "投稿する" %>
-  </div>
-<% end %>
+<%# render "form" で _form.html.erb を呼び出します %>
+<%= render "form", post: @post %>
 
 <%= link_to "一覧に戻る", posts_path %>
